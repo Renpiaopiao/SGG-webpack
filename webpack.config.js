@@ -1,4 +1,5 @@
 const path = require('path')
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
     entry: './src/main.js',
@@ -47,12 +48,19 @@ module.exports = {
                 generator: {
                     filename: 'media/[hash:10][ext][query]'   //hash:10  取哈希值前10位
                 }
-            }
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/, // 排除node_modules代码不编译
+                loader: "babel-loader",
+            },
         ]
     },
 
     plugins: [
-
+        new ESLintPlugin({
+            context:path.resolve(__dirname,'src')
+        })
     ],
 
     mode: 'development'
