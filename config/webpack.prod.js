@@ -1,10 +1,11 @@
 const path = require('path')
 const ESLintPlugin = require('eslint-webpack-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
     entry: './src/main.js',
     output: {
-        path: path.resolve(__dirname, "dist"),   //所有打包文件的输出路径
+        path: path.resolve(__dirname, "../dist"),   //所有打包文件的输出路径
         filename: 'js/main.js',  //入口文件打包输出的文件名
         clean:true   //自动清理dist目录
     },
@@ -53,15 +54,20 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/, // 排除node_modules代码不编译
                 loader: "babel-loader",
-            },
+            }
         ]
     },
 
     plugins: [
         new ESLintPlugin({
-            context:path.resolve(__dirname,'src')
+            context:path.resolve(__dirname,'../src')
+        }),
+        new HtmlWebpackPlugin({
+            // 以 public/index.html 为模板创建文件
+            // 新的html文件有两个特点：1. 内容和源文件一致 2. 自动引入打包生成的js等资源
+            template: path.resolve(__dirname, "../public/index.html"),
         })
     ],
 
-    mode: 'development'
+    mode: 'production'
 }

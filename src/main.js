@@ -7,4 +7,4 @@ import './css/iconfont.css'
 
 // let a = 1
 console.log(count(5,6));
-console.log(sum(1,2,3));
+console.log(sum(1,2,3,4));
