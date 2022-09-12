@@ -8,8 +8,6 @@ const os = require('os')
 const threads = os.cpus().length;
 const TerserWebpackPlugin = require('terser-webpack-plugin')
 
-const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
-
 function getStyleLoader(pre) {
     return [
         MiniCssExtractPlugin.loader,
@@ -77,11 +75,11 @@ module.exports = {
                     {
                         test: /\.js$/,
                         exclude: /node_modules/, // 排除node_modules代码不编译
-                        use: [
+                        use:[
                             {
-                                loader: 'thread-loader',
-                                options: {
-                                    works: threads
+                                loader:'thread-loader',
+                                options:{
+                                    works:threads
                                 }
                             },
                             {
@@ -89,11 +87,10 @@ module.exports = {
                                 options: {
                                     cacheDirectory: true, // 开启babel编译缓存
                                     cacheCompression: false, // 缓存文件不要压缩
-                                    plugins: ["@babel/plugin-transform-runtime"], // 减少代码体积
                                 },
                             }
                         ]
-
+                        
                     }
                 ]
             }
@@ -121,40 +118,12 @@ module.exports = {
             filename: 'css/main.css'
         }),
     ],
-    optimization: {
-        minimizer: [
+    optimization:{
+        minimizer:[
             new CssMinimizerPlugin(),
             new TerserWebpackPlugin({
                 parallel: threads // 开启多进程
-            }),
-            // 压缩图片
-            new ImageMinimizerPlugin({
-                minimizer: {
-                    implementation: ImageMinimizerPlugin.imageminGenerate,
-                    options: {
-                        plugins: [
-                            ["gifsicle", { interlaced: true }],
-                            ["jpegtran", { progressive: true }],
-                            ["optipng", { optimizationLevel: 5 }],
-                            [
-                                "svgo",
-                                {
-                                    plugins: [
-                                        "preset-default",
-                                        "prefixIds",
-                                        {
-                                            name: "sortAttrs",
-                                            params: {
-                                                xmlnsOrder: "alphabetical",
-                                            },
-                                        },
-                                    ],
-                                },
-                            ],
-                        ],
-                    },
-                },
-            }),
+            })
         ]
     },
     mode: 'production',
