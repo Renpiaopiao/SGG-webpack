@@ -8,6 +8,9 @@ const os = require('os')
 const threads = os.cpus().length;
 const TerserWebpackPlugin = require('terser-webpack-plugin')
 
+const WorkboxPlugin = require("workbox-webpack-plugin");
+
+
 function getStyleLoader(pre) {
     return [
         MiniCssExtractPlugin.loader,
@@ -30,8 +33,10 @@ module.exports = {
     entry: './src/main.js',
     output: {
         path: path.resolve(__dirname, "../dist"),   //所有打包文件的输出路径
-        filename: 'js/main.js',  //入口文件打包输出的文件名
-        clean: true   //自动清理dist目录
+        filename: 'js/[name].[contenthash:8].js',  //入口文件打包输出的文件名,
+        chunkFilename: 'js/[name].[contenthash:8].chunk.js',  //打包输出其他文件名，chunk名
+        clean: true,   //自动清理dist目录
+
     },
 
     // 加载器（lodaer）
@@ -75,11 +80,11 @@ module.exports = {
                     {
                         test: /\.js$/,
                         exclude: /node_modules/, // 排除node_modules代码不编译
-                        use:[
+                        use: [
                             {
-                                loader:'thread-loader',
-                                options:{
-                                    works:threads
+                                loader: 'thread-loader',
+                                options: {
+                                    works: threads
                                 }
                             },
                             {
@@ -90,7 +95,7 @@ module.exports = {
                                 },
                             }
                         ]
-                        
+
                     }
                 ]
             }
@@ -115,16 +120,30 @@ module.exports = {
             template: path.resolve(__dirname, "../public/index.html"),
         }),
         new MiniCssExtractPlugin({
-            filename: 'css/main.css'
+            filename: 'css/[name].[contenthash:8].css',
+            chunkFilename:'css/[name].[contenthash:8].chunk.css'
         }),
+        new WorkboxPlugin.GenerateSW({
+            // 这些选项帮助快速启用 ServiceWorkers
+            // 不允许遗留任何“旧的” ServiceWorkers
+            clientsClaim: true,
+            skipWaiting: true,
+          }),
     ],
-    optimization:{
-        minimizer:[
+    optimization: {
+        minimizer: [
             new CssMinimizerPlugin(),
             new TerserWebpackPlugin({
                 parallel: threads // 开启多进程
             })
-        ]
+        ],
+        splitChunks: {   //把node_modules单独分割，动态导入单独分割
+            chunks: 'all'
+        },
+        // 提取runtime文件
+        runtimeChunk: {
+            name: (entrypoint) => `runtime~${entrypoint.name}`, // runtime文件命名规则
+        },
     },
     mode: 'production',
     devtool: "source-map"
