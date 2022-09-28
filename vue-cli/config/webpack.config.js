@@ -8,7 +8,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const CssMinimizerWebpackPlugin = require("css-minimizer-webpack-plugin")
 // js 压缩
 const TerserWebpackPlugin = require("terser-webpack-plugin")
-// 图片压缩
+// 图片压缩  -- 有些情况下下载不下来
 // const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 // 直接赋值public的静态资源-- 赋值favicon.ico

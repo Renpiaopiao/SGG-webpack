@@ -15,7 +15,7 @@
   \*********************/
 /***/ (function() {
 
-eval("console.log('hello main!!!');\n\n//# sourceURL=webpack://test_loader/./src/main.js?");
+eval("/*author： yuchun  */\r\n\r\n\r\n\r\n\r\n\r\n\r\nconst sum = (...arg) => {\r\n    return arg.reduce((a,b) => a+b,0)\r\n}\n\n//# sourceURL=webpack://test_loader/./src/main.js?");
 
 /***/ })
 

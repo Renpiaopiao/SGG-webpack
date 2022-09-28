@@ -14,7 +14,14 @@ module.exports = {
         rules:[
             {
                 test:/\.js$/,
-                loader:"./loaders/test-loader.js"
+                loader:"./loaders/clear-log-loader.js"
+            },
+            {
+                test:/\.js$/,
+                loader:"./loaders/banner-loader",
+                options:{
+                    author:'yuchun'
+                }
             }
         ]
     },
@@ -23,5 +30,6 @@ module.exports = {
             template:path.resolve(__dirname,'public/index.html')
         })
     ],
+ 
     mode:'development'
 }
