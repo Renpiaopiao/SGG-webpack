@@ -7,6 +7,7 @@
  * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
  */
 /******/ (function() { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./src/main.js":
@@ -15,7 +16,7 @@
   \*********************/
 /***/ (function() {
 
-eval("/*author： yuchun  */\r\n\r\n\r\n\r\n\r\n\r\n\r\nconst sum = (...arg) => {\r\n    return arg.reduce((a,b) => a+b,0)\r\n}\n\n//# sourceURL=webpack://test_loader/./src/main.js?");
+eval("/*author： yuchun  */\n\n\n\n\n\n\n\nconst sum = function () {\n  for (var _len = arguments.length, arg = new Array(_len), _key = 0; _key < _len; _key++) {\n    arg[_key] = arguments[_key];\n  }\n\n  return arg.reduce((a, b) => a + b, 0);\n};\n\n//# sourceURL=webpack://test_loader/./src/main.js?");
 
 /***/ })
 

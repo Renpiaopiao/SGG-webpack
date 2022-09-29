@@ -2,7 +2,6 @@ const path = require('path')
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 
-
 module.exports = {
     entry:'./src/main.js',
     output:{
@@ -21,6 +20,13 @@ module.exports = {
                 loader:"./loaders/banner-loader",
                 options:{
                     author:'yuchun'
+                }
+            },
+            {
+                test:/\.js$/,
+                loader:"./loaders/babel-loader",
+                options:{
+                    presets:["@babel/preset-env"]
                 }
             }
         ]
