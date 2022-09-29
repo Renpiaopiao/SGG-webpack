@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const loader = require('sass-loader');
 
 
 module.exports = {
@@ -28,6 +29,15 @@ module.exports = {
                 options:{
                     presets:["@babel/preset-env"]
                 }
+            },
+            {
+                test:/\.(png|jpe?g|gif)/,
+                loader:'./loaders/file-loader',
+                type:'javascript/auto'
+            },
+            {
+                test:/\.css$/,
+                use:["style-loader","css-loader"]
             }
         ]
     },
