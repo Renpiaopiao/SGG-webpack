@@ -1,8 +1,8 @@
 const path = require('path')
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const loader = require('sass-loader');
-
-
+const testPlugin =  require('./plugins/test-plugin')
+const InlineChunkWebpackPlugin = require('./plugins/inline-chunk-webpack')
 module.exports = {
     entry:'./src/main.js',
     output:{
@@ -44,8 +44,19 @@ module.exports = {
     plugins:[
         new HtmlWebpackPlugin({
             template:path.resolve(__dirname,'public/index.html')
-        })
+        }),
+        new testPlugin(),
+        new InlineChunkWebpackPlugin()
     ],
+    optimization:{
+        splitChunks:{
+            chunks:'all'
+        },
+         // 提取runtime文件
+         runtimeChunk: {
+            name: (entrypoint) => `runtime~${entrypoint.name}`, // runtime文件命名规则
+        }
+    },
  
     mode:'development'
 }
